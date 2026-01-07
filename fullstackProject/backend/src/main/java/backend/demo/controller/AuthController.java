@@ -18,7 +18,8 @@ public class AuthController {
     @PostMapping("/register")
     public org.springframework.http.ResponseEntity<?> register(@RequestBody RegisterRequest request) {
         try {
-            User user = authService.register(request.getName(), request.getEmail(), request.getPassword());
+            User user = authService.register(request.getName(), request.getEmail(), request.getPassword(),
+                    request.getRole());
             return org.springframework.http.ResponseEntity.ok(user);
         } catch (Exception e) {
             return org.springframework.http.ResponseEntity.badRequest().body(e.getMessage());

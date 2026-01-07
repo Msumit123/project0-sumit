@@ -14,12 +14,14 @@ public class AuthService {
 
     private BCryptPasswordEncoder passwordEncoder = new BCryptPasswordEncoder();
 
-    public User register(String name, String email, String password) throws Exception {
+    public User register(String name, String email, String password, String role) throws Exception {
         if (userRepository.existsByEmail(email)) {
             throw new Exception("Email already exists");
         }
         String encodedPassword = passwordEncoder.encode(password);
-        User user = new User(name, email, encodedPassword);
+        // Default role if null
+        String userRole = (role != null && !role.isEmpty()) ? role : "Commuter";
+        User user = new User(name, email, encodedPassword, userRole);
         return userRepository.save(user);
     }
 
