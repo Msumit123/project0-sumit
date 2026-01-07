@@ -5,6 +5,7 @@ import jakarta.persistence.*;
 @Entity
 @Table(name = "users")
 public class User {
+
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
@@ -13,7 +14,6 @@ public class User {
     private String email;
 
     @Column(nullable = false)
-    @com.fasterxml.jackson.annotation.JsonIgnore
     private String password;
 
     @Column(nullable = false)
@@ -28,7 +28,6 @@ public class User {
     @Column
     private String savedLocations;
 
-    // Constructors
     public User() {
     }
 
@@ -41,7 +40,6 @@ public class User {
         this.savedLocations = "";
     }
 
-    // Getters & Setters
     public Long getId() {
         return id;
     }
