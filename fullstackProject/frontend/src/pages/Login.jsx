@@ -1,24 +1,37 @@
 import React, { useState, useContext } from "react";
 import { AuthContext } from "../context/AuthContext.jsx";
 import { useNavigate, Link } from "react-router-dom";
+import { login as loginService } from "../services/authService";
 
 function Login() {
-  const { login } = useContext(AuthContext);
+  const { user, login } = useContext(AuthContext);
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const navigate = useNavigate();
 
-  const handleSubmit = (e) => {
+  React.useEffect(() => {
+    if (user) {
+      navigate("/profile");
+    }
+  }, [user, navigate]);
+
+  const handleSubmit = async (e) => {
     e.preventDefault();
-    login({ email });
-    navigate("/");
+    try {
+      const user = await loginService(email, password);
+      login(user);
+      navigate("/profile");
+    } catch (error) {
+      console.error(error);
+      alert("Login failed");
+    }
   };
 
   return (
     <div className="min-h-screen flex items-center justify-center bg-gradient-to-br from-blue-500 via-indigo-500 to-purple-600 px-4">
-      
+
       <div className="w-full max-w-md bg-white rounded-2xl shadow-2xl p-8">
-        
+
         {/* Title */}
         <h2 className="text-3xl font-bold text-center text-gray-800 mb-2">
           Welcome Back
